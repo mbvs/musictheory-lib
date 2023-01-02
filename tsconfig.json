@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "inlineSourceMap": true,
+    "lib": ["es2022"],
+    "module": "commonjs",
+    "target": "es2022",
+    "jsx": "react",
+    "allowJs": true
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["**/node_modules"]
+}
