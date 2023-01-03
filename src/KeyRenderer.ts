@@ -109,9 +109,10 @@ export default class KeyRenderer {
         color = 'green';
         text = interval.notes[1].toString();
       }
-      this.drawNote(context, note, options, color, text);
+      this.drawNote(context, note, options, color);
     });
   }
+
   private drawNote(context: Context, note: Note, options: Options, color?: string, text?: string) {
     note = note.getEnharmonics()[0];
     context.beginPath();

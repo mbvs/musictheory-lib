@@ -38,9 +38,11 @@ const Intervals = [
   ['M7', 'd8'],
   ['P8', 'A7']
 ];
+
 const allIntervals = Intervals.flat();
 type IntervalIdent = typeof allIntervals[number];
-type IntervalDirection = 'up' | 'down';
+const directions = ['up', 'down'];
+type IntervalDirection = typeof directions[number];
 
 const IntervalRegex = /^([mMAdP])(\d?)$/;
 
@@ -49,7 +51,10 @@ export default class Interval {
   public interval: IntervalIdent;
   public direction: IntervalDirection;
 
-  constructor(base: Note, interval: IntervalIdent, direction: IntervalDirection = 'up') {
+  constructor(base: Note | string, interval: IntervalIdent, direction: IntervalDirection = 'up') {
+    if (typeof base === 'string') {
+      base = new Note(base);
+    }
     this.notes[0] = base;
     this.notes[1] = Interval.getInterval(base, interval, direction);
     this.interval = interval;
