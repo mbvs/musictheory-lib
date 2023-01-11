@@ -1,11 +1,10 @@
 import Note from './Note';
 import Interval from './Interval';
-
 import * as fs from 'fs';
+import * as path from 'path';
 import { Buffer } from 'node:buffer';
 import * as Vex from 'vexflow';
 const { Renderer, Stave, StaveNote, Voice, Formatter, StaveConnector, Accidental } = Vex.Flow;
-
 import { JSDOM } from 'jsdom';
 
 interface IRenderOptions {
@@ -203,6 +202,9 @@ export default class ScoreRenderer {
 
   private writeImage(filename: string, canvas: HTMLCanvasElement): void {
     const image = this.getImageData(canvas);
+    if (!fs.existsSync(path.dirname(filename))) {
+      fs.mkdirSync(path.dirname(filename));
+    }
     fs.writeFileSync(filename, image, { encoding: 'base64' });
   }
 }

@@ -22,7 +22,7 @@
       "console": "integratedTerminal",
       "name": "Debug Client",
       "runtimeArgs": ["-r", "ts-node/register"],
-      "args": ["${workspaceFolder}/client.ts"]
+      "args": ["${workspaceFolder}/generators/m3_M3_circle.ts"]
     }
   ]
 }

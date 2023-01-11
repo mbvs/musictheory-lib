@@ -49,11 +49,23 @@ export default class Note {
     return this.accidental !== '';
   }
 
-  toString(): string {
-    return `${this.pitchClass}${this.octave}${this.accidental}`;
+  get hasDoubleAccidentals(): boolean {
+    return this.accidental === 'bb' || this.accidental === '##';
   }
 
-  toNiceString(): string {
+  get hasTrippleAccidentals(): boolean {
+    return this.accidental == 'bbb' || this.accidental == '###';
+  }
+
+  toString(withOctave = true): string {
+    let noteString = `${this.pitchClass}${this.octave}${this.accidental}`;
+    if (!withOctave) {
+      noteString = noteString.replace(/\d+/g, '');
+    }
+    return noteString;
+  }
+
+  toNiceString(withOctave = true): string {
     const accidental = this.accidental
       .replace(/###/, '\u{266F}\u{1D12A}')
       .replace(/##/, '\u{1D12A}')
@@ -61,7 +73,11 @@ export default class Note {
       .replace(/bbb/, '\u{266D}\u{1D12B}')
       .replace(/bb/, '\u{1D12B}')
       .replace(/b/, '\u{266D}');
-    return `${this.pitchClass}${this.octave}${accidental}`;
+    let noteString = `${this.pitchClass}${this.octave}${accidental}`;
+    if (!withOctave) {
+      noteString = noteString.replace(/\d+/g, '');
+    }
+    return noteString;
   }
 
   toVexflowString(): string {
@@ -84,8 +100,7 @@ export default class Note {
   }
 
   getEnharmonics(): Array<Note> {
-    const enharmonics = Chromas[this.chroma];
-    const notes = enharmonics.map((enharmonic) => {
+    return Chromas[this.chroma].map((enharmonic) => {
       const [, pitchClass, , accidental] = PitchRegex.exec(enharmonic);
       let octave = this.octave;
       const newPCindex = PitchClasses.indexOf(pitchClass);
@@ -95,6 +110,5 @@ export default class Note {
       }
       return new Note(`${pitchClass}${octave}${accidental}`);
     });
-    return notes;
   }
 }

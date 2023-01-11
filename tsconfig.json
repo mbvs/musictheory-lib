@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "inlineSourceMap": true,
     "lib": ["es2022"],
-    "module": "commonjs",
+    "module": "NodeNext",
     "target": "es2022",
     "jsx": "react",
     "allowJs": true,

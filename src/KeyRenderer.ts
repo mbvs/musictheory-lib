@@ -2,6 +2,7 @@ import Note from './Note';
 import Interval from './Interval';
 import { Canvas, createCanvas, loadImage } from 'canvas';
 import * as fs from 'fs';
+import * as path from 'path';
 import { Context } from 'vm';
 
 const keyPositions = [
@@ -143,6 +144,9 @@ export default class KeyRenderer {
 
   private writeImage(filename: string, canvas: Canvas): void {
     const image = this.getImageData(canvas);
+    if (!fs.existsSync(path.dirname(filename))) {
+      fs.mkdirSync(path.dirname(filename));
+    }
     fs.writeFileSync(filename, image, { encoding: 'base64' });
   }
 }
