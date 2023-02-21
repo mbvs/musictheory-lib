@@ -1,4 +1,3 @@
-import Note from '../src/Note';
 import Interval from '../src/Interval';
 import ScoreRenderer from '../src/ScoreRenderer';
 import KeyRenderer from '../src/KeyRenderer';

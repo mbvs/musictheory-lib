@@ -9,8 +9,8 @@ import { JSDOM } from 'jsdom';
 
 interface IRenderOptions {
   scale: number;
-  canvasWidth: number;
-  canvasHeight: number;
+  width: number;
+  height: number;
   staveWidth: number;
   staveX: number;
   staveBassY: number;
@@ -21,8 +21,8 @@ export default class ScoreRenderer {
   render(renderee: Note | Interval, filename?: string): Buffer {
     const options = {
       scale: 1.8,
-      canvasWidth: 175,
-      canvasHeight: 200,
+      width: 175,
+      height: 200,
       staveWidth: 100,
       staveX: 40,
       staveBassY: 80
@@ -162,12 +162,12 @@ export default class ScoreRenderer {
     dom.window.document.body.appendChild(canvas);
 
     const renderer = new Renderer(canvas, Renderer.Backends.CANVAS);
-    renderer.resize(options.canvasWidth * options.scale, options.canvasHeight * options.scale);
+    renderer.resize(options.width * options.scale, options.height * options.scale);
     const context = renderer.getContext().scale(options.scale, options.scale);
 
     context.save();
     context.setFillStyle('white');
-    context.fillRect(0, 0, options.canvasWidth, options.canvasHeight);
+    context.fillRect(0, 0, options.width, options.height);
     context.restore();
     return [canvas, context];
   }

@@ -5,6 +5,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Context } from 'vm';
 
+// TODO: start with smaller base images
+// check if anki imports svgs: it does => use raphael and jsdom to generate the images
 const keyPositions = [
   { x: 33, y: 290 }, // c
   { x: 61, y: 150 }, // c#
