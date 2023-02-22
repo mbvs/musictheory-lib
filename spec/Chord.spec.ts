@@ -4,14 +4,39 @@ import Note from '../src/Note';
 import Chord from '../src/Chord';
 
 describe('Chords', () => {
-  test('reject unknown chord types', () => {
-    const t = () => {
-      const cMinor = new Chord('C', 'unknown type');
-    };
-    expect(t).toThrow('unknown chord quality');
+  test('should parse Chord notation correctly', () => {
+    expect(new Chord('C').quality).toBe('major');
+    expect(new Chord('CMaj').quality).toBe('major');
+    expect(new Chord('CM').quality).toBe('major');
+    // how to type the triangle?
+
+    expect(new Chord('Cm').quality).toBe('minor');
+    expect(new Chord('Cmin').quality).toBe('minor');
+    expect(new Chord('C-').quality).toBe('minor');
+
+    expect(new Chord('C+').quality).toBe('augumented');
+    expect(new Chord('Caug').quality).toBe('augumented');
+    expect(new Chord('CM#5').quality).toBe('augumented');
+    expect(new Chord('CM+5').quality).toBe('augumented');
+
+    expect(new Chord('Co').quality).toBe('diminished');
+    expect(new Chord('Cdim').quality).toBe('diminished');
+    expect(new Chord('Cmb5').quality).toBe('diminished');
+    expect(new Chord('Cmo5').quality).toBe('diminished');
   });
 
-  test('generate minor chords correctly', () => {
+  test('should reject unknown chord types', () => {
+    const t = () => {
+      new Chord('C', 'unknown type');
+    };
+    expect(t).toThrow('unknown chord quality');
+    const s = () => {
+      new Chord('CSomething');
+    };
+    expect(s).toThrow('unknown chord quality');
+  });
+
+  test('should generate minor chords correctly', () => {
     const cMinor = new Chord('C', 'minor');
     expect(cMinor.notes[0].toString()).toBe('C4');
     expect(cMinor.notes[1].toString()).toBe('E4b');
@@ -35,7 +60,7 @@ describe('Chords', () => {
     expect(bSharpMinor.toNiceString(true)).toBe('B♯m (B♯ - D♯ - F𝄪)');
   });
 
-  test('generate major chords correctly', () => {
+  test('should generate major chords correctly', () => {
     const cMajor = new Chord('C', 'major');
     expect(cMajor.notes[0].toString()).toBe('C4');
     expect(cMajor.notes[1].toString()).toBe('E4');
@@ -59,7 +84,7 @@ describe('Chords', () => {
     expect(bSharpMajor.toNiceString(true)).toBe('B♯ (B♯ - D𝄪 - F𝄪)');
   });
 
-  test('generate diminished chords correctly', () => {
+  test('should generate diminished chords correctly', () => {
     const cDiminished = new Chord('C', 'diminished');
     expect(cDiminished.notes[0].toString()).toBe('C4');
     expect(cDiminished.notes[1].toString()).toBe('E4b');
