@@ -1,5 +1,6 @@
 import Note from './Note';
 import Interval from './Interval';
+import Chord from './Chord';
 import { Canvas, createCanvas, loadImage } from 'canvas';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -47,7 +48,7 @@ type Options = typeof defaults;
 // C2 is lowest C and lowest key
 // C6 is highest C and highest key
 export default class KeyRenderer {
-  async render(renderee: Note | Interval, filename?: string): Promise<Buffer> {
+  async render(renderee: Note | Interval | Chord, filename?: string): Promise<Buffer> {
     let options;
     if (this.getRange(renderee) === 'small') {
       options = Object.assign({}, defaults, {
@@ -77,10 +78,18 @@ export default class KeyRenderer {
     const keyboard = await loadImage(options.template);
     context.drawImage(keyboard, 0, 0, options.canvasWidth, options.canvasHeight);
 
-    if (renderee instanceof Note) {
-      this.drawNote(context, renderee, options);
-    } else {
-      this.drawInterval(context, renderee, options);
+    switch (renderee.constructor) {
+      case Note:
+        this.drawNote(context, renderee as Note, options);
+        break;
+      case Interval:
+        this.drawInterval(context, renderee as Interval, options);
+        break;
+      case Chord:
+        this.drawChord(context, renderee as Chord, options);
+        break;
+      default:
+        throw new Error('unkown class to render');
     }
 
     if (filename) {
@@ -90,7 +99,7 @@ export default class KeyRenderer {
     return this.getImageBuffer(canvas);
   }
 
-  private getRange(renderee: Note | Interval): 'small' | 'full' {
+  private getRange(renderee: Note | Interval | Chord): 'small' | 'full' {
     const notes: Array<Note> = renderee instanceof Note ? [renderee] : renderee.notes;
     const range = notes.reduce((range: 'small' | 'full', note: Note) => {
       if (note.isHigherThan('C6') || note.isLowerThan('C2')) {
@@ -134,6 +143,12 @@ export default class KeyRenderer {
       const dim = context.measureText(text);
       context.fillText(text, x - dim.width / 2, y + dim.actualBoundingBoxAscent / 2);
     }
+  }
+
+  private drawChord(context: Context, chord: Chord, options: Options) {
+    chord.notes.forEach((note: Note, index) => {
+      this.drawNote(context, note, options, options.dotColor, `${index + 1}`);
+    });
   }
 
   private getImageData(canvas: Canvas): string {

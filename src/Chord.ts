@@ -82,11 +82,10 @@ export default class Chord {
 
   private chordRegex() {
     const pitch = '([A-G][2-6]?[b#]?)';
-    const major = '(?:[mM]aj?|M)';
-    const minor = '(?:min|m|-)';
-    // eslint-disable-next-line prettier/prettier
     const augumented = '(?:aug|\\+|M\\+5|M#5)';
     const diminished = '(?:dim|mb5|mo5|o)';
+    const major = '(?:[mM]aj?|M)';
+    const minor = '(?:min|m|-)';
 
     const rest = '(.*)';
 

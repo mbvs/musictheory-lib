@@ -98,4 +98,15 @@ export default class Interval {
       return new Note(`${pitchClass}${octave}${accidental}`);
     }
   }
+
+  static identifyInterval(base: Note, note: Note) {
+    const basePcIndex = PitchClasses.indexOf(base.pitchClass);
+    const notePcIndex = PitchClasses.indexOf(note.pitchClass);
+    const intervalDistance =
+      (notePcIndex < basePcIndex ? notePcIndex + 7 : notePcIndex) - basePcIndex;
+    // account for octave
+
+    const halfsteps = (note.chroma < base.chroma ? note.chroma + 11 : note.chroma) - base.chroma;
+    console.log(halfsteps);
+  }
 }

@@ -5,4 +5,5 @@ import KeyRenderer from './src/KeyRenderer';
 import ObjectsToCsv from 'objects-to-csv';
 import Chord from './src/Chord';
 
-const chord = new Chord('CMajdim');
+const interval = new Interval('C', 'M b2');
+Interval.identifyInterval(interval.notes[0], interval.notes[1]);
