@@ -1,1 +1,0 @@
-console.log('\u{266D}')
